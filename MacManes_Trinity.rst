@@ -1,248 +1,168 @@
-================================================ 
+================================================
 Trinity and Transcriptome Evaluation
 ================================================
+
+
+**Launch a BIG maching** Maybe a c4.8xl that has 32 cores and 60GB RAM. Get 100Gb Hard Drive
 
 Trinity: http://trinityrnaseq.github.io/
 
 Transrate: http://hibberdlab.com/transrate/installation.html
 
---------------
+RCorrector: https://github.com/mourisl/Rcorrector
 
-Step 1: Launch and AMI. For this exercise, we will use a **c4.4xlarge** with a 500Gb EBS volume. Remember to change the permission of your key code ``chmod 400 ~/Downloads/????.pem`` (change ????.pem to whatever you named it)
+BUSCO: http://busco.ezlab.org/
 
-::
-
-    ssh -i ~/Downloads/?????.pem ubuntu@ec2-???-???-???-???.compute-1.amazonaws.com
-
---------------
 
 **Update Software**
 
 ::
 
-    sudo apt-get update
-
---------------
-
-**Install updates**
-
-::
-
-    sudo apt-get -y upgrade
-
---------------
+    sudo apt-get update && sudo apt-get -y upgrade
 
 **Install other software** Note that you can install a large amount of software from the Ubuntu "App Store" using a single command. Some of this software we will not use for this tutorial, but...
 
 ::
 
-  sudo apt-get -y install build-essential tmux git gcc make g++ python-dev unzip default-jre libcurl4-openssl-dev zlib1g-dev python-pip fastqc samtools bowtie ncbi-blast+ hmmer emboss
+    sudo apt-get -y install build-essential tmux git gcc make g++ python-dev unzip \
+                            default-jre libcurl4-openssl-dev zlib1g-dev python-pip
 
---------------
 
-**Mount hard drive** The EBS volume we asked for is not automatically mounted - we need to do that. 
+**Install Ruby**  Ruby is a computer language like Python or Perl.
 
 ::
 
-    sudo mkfs -t ext4 /dev/xvdb  
-    sudo mount /dev/xvdb /mnt  
-    sudo chown -R ubuntu:ubuntu /mnt  
-    df -h
+    cd
+    wget https://keybase.io/mpapis/key.asc
+    gpg --import key.asc
+    \curl -sSL https://get.rvm.io | bash -s stable --ruby
+    source /home/ubuntu/.rvm/scripts/rvm
 
---------------
 
+
+**Install LinuxBrew**
+
+::
+
+    sudo mkdir /home/linuxbrew
+    sudo chown $USER:$USER /home/linuxbrew
+    git clone https://github.com/Linuxbrew/brew.git /home/linuxbrew/.linuxbrew
+    echo 'export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"' >> ~/.profile
+    echo 'export MANPATH="/home/linuxbrew/.linuxbrew/share/man:$MANPATH"' >> ~/.profile
+    echo 'export INFOPATH="/home/linuxbrew/.linuxbrew/share/info:$INFOPATH"' >> ~/.profile
+    source ~/.profile
+    brew tap homebrew/science
+    brew update
+    brew doctor
 
 **INSTALL TRANSRATE**
 
 ::
-  
-  cd $HOME
-  curl -LO https://bintray.com/artifact/download/blahah/generic/transrate-1.0.1-linux-x86_64.tar.gz
-  tar -zxf transrate-1.0.1-linux-x86_64.tar.gz
-  cd transrate-1.0.1-linux-x86_64
-  PATH=$PATH:$(pwd)
 
---------------
+    curl -LO https://bintray.com/artifact/download/blahah/generic/transrate-1.0.3-linux-x86_64.tar.gz
+    tar -zxf transrate-1.0.3-linux-x86_64.tar.gz
+    echo 'export PATH=$PATH:"$HOME/transrate-1.0.3-linux-x86_64"' >> ~/.profile
+    source ~/.profile
 
 
-**INSTALL Augustus**
+
+**INSTALL BLAST**
 
 ::
 
-  cd $HOME
-  curl -O http://augustus.gobics.de/binaries/augustus.2.5.5.tar.gz
-  tar -zxf augustus.2.5.5.tar.gz
-  cd augustus.2.5.5/
-  make
-  PATH=$PATH:$(pwd)/bin
-  export AUGUSTUS_CONFIG_PATH=$(pwd)/config
+    curl -LO ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.3.0/ncbi-blast-2.3.0+-x64-linux.tar.gz
+    tar -zxf ncbi-blast-2.3.0+-x64-linux.tar.gz
+    echo 'export PATH="$HOME/ncbi-blast-2.3.0+/bin:$PATH"' >> ~/.profile
+    source ~/.profile
 
---------------
-
-**INSTALL BUSCO**:
+**INSTALL Augustus, BUSCO, Trinity, RCorrector, Skewer**
 
 ::
 
-  cd $HOME
-  curl -O http://busco.ezlab.org/files/BUSCO_v1.1b1.tar.gz
-  tar -zxf BUSCO_v1.1b1.tar.gz
-  cd BUSCO_v1.1b1/
-  PATH=$PATH:$(pwd)
+    brew install gcc augustus emboss Trinity --without-express Rcorrector Skewer busco --without-blast
 
---------------
 
-**Install Trinity**
+**Download data**: For this lab, we'll be using
+::
+
+    #Open tumx window
+
+    tmux new -s trinity
+
+    mkdir $HOME/reads && cd /$HOME/reads/
+    curl -LO https://s3.amazonaws.com/NYGC_August2015/raw_data/382-Kidney_ACTTGA_BC6PR5ANXX_L008_001.R1.fastq.gz
+    curl -LO https://s3.amazonaws.com/NYGC_August2015/raw_data/382-Kidney_ACTTGA_BC6PR5ANXX_L008_001.R2.fastq.gz
+    zcat 382-Kidney_ACTTGA_BC6PR5ANXX_L008_001.R1.fastq.gz | head -8000000 > read1.fq
+    zcat 382-Kidney_ACTTGA_BC6PR5ANXX_L008_001.R2.fastq.gz | head -8000000 > read2.fq
+
+
+    # control-b d to get out of tmux window.
+
+
+    tmux attach -t trinity #to get back in tmux window.
+
+**Correct Reads**
 
 ::
 
-  git clone https://github.com/trinityrnaseq/trinityrnaseq.git
-  cd trinityrnaseq
-  make -j4
-  PATH=$PATH:$(pwd)
+    run_rcorrector.pl -k 31 -t 30 \
+    -1 $HOME/reads/read1.fq \
+    -2 $HOME/reads/read2.fq
 
---------------
 
-**Install Trimmomatic**
 
-::
-
-  cd $HOME
-  wget http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-0.33.zip
-  unzip Trimmomatic-0.33.zip
-  cd Trimmomatic-0.33
-  chmod +x trimmomatic-0.33.jar
-
---------------
-
-**Download data**: For this lab, we'll be using 
-::
-
-   mkdir /mnt/reads 
-   cd /mnt/reads/
-
-   curl -LO https://www.dropbox.com/s/4o6eduzcw11gz53/subsamp.2.fq.gz
-
-   curl -LO https://www.dropbox.com/s/i4wst01yz10i9x9/subsamp.1.fq.gz
-
---------------
-
-**Do 2 different trimming levels -- Phred=2 and Phred=30**: One of these is very harsh, the other is probably more appropriate.  Which one is which?
-
-Look at the output from this command, which should start with ``Input Read Pairs:``
+**Run Skewer**
 
 ::
 
-    mkdir /mnt/trimming
-    cd /mnt/trimming
+    curl -LO https://s3.amazonaws.com/gen711/TruSeq3-PE.fa
 
-    #paste the below lines together as 1 command
+    skewer -l 25 -m pe -o skewerQ2 --mean-quality 2 --end-quality 2 -t 30 \
+    -x TruSeq3-PE.fa \
+    $HOME/reads/read1.cor.fq \
+    $HOME/reads/read2.cor.fq
 
-    java -Xmx10g -jar $HOME/Trimmomatic-0.33/trimmomatic-0.33.jar PE \
-    -threads 8 -baseout subsamp.Phred2.fq \
-    /mnt/reads/subsamp.1.fq.gz \
-    /mnt/reads/subsamp.2.fq.gz \
-    ILLUMINACLIP:$HOME/Trimmomatic-0.33/adapters/TruSeq3-PE.fa:2:30:10 \
-    SLIDINGWINDOW:4:2 \
-    LEADING:2 \
-    TRAILING:2 \
-    MINLEN:25
-
-    #and
-
-    java -Xmx10g -jar $HOME/Trimmomatic-0.33/trimmomatic-0.33.jar PE \
-    -threads 8 -baseout subsamp.Phred30.fq \
-    /mnt/reads/subsamp.1.fq.gz \
-    /mnt/reads/subsamp.2.fq.gz \
-    ILLUMINACLIP:$HOME/Trimmomatic-0.33/adapters/TruSeq3-PE.fa:2:30:10 \
-    SLIDINGWINDOW:4:30 \
-    LEADING:30 \
-    TRAILING:30 \
-    MINLEN:25
-
-
---------------
 
 **Run Trinity**
 
 ::
 
-  mkdir /mnt/assembly
-  cd /mnt/assembly
+    mkdir $HOME/assembly && cd $HOME/assembly
 
-  #Open tumx window
-  
-  tmux new -s trinity
 
-  #Phred30 dataset  
+    Trinity --seqType fq --max_memory 40G --left $HOME/reads/skewerQ2-trimmed-pair1.fastq \
+    --right $HOME/reads/skewerQ2-trimmed-pair2.fastq --CPU 30
 
-  Trinity --seqType fq --max_memory 10G --left /mnt/trimming/subsamp.Phred30_1P.fq \
-  --right /mnt/trimming/subsamp.Phred30_2P.fq --CPU 16
 
-  #Phred2 dataset
-
-  Trinity --seqType fq --max_memory 10G --left /mnt/trimming/subsamp.Phred2_1P.fq \
-  --right /mnt/trimming/subsamp.Phred2_2P.fq --CPU 16
-
-**Fix Trinity Headers**
+**Run BUSCO for assemblies**: There are Eukaryote, Metazoa, Arthropod, Vertebrate, Plant references for use with other genomes.
 
 ::
 
-  sed -i 's_|_-_g' /mnt/assembly/trinity_out_dir/Trinity.fasta
 
-  Control-b d #to exit tmux
+    mkdir $HOME/busco && cd $HOME/busco
 
---------------
+    export AUGUSTUS_CONFIG_PATH=/home/ubuntu/.linuxbrew/Cellar/augustus/3.2.2_1/libexec/config/
 
-
-
-**Run BUSCO for assemblies**: There are Eukaryote, Metazoa, Arthropod, Vertebrate, Plant references for use with other genomes. 
-
-::
-  
-  
-  mkdir /mnt/busco
-  cd /mnt/busco
-
-  #Download busco database
-
-  tmux new -s busco
-  
-  curl -LO http://busco.ezlab.org/files/vertebrata_buscos.tar.gz
-  tar -zxf vertebrata_buscos.tar.gz
-
-  python3 /home/ubuntu/BUSCO_v1.1b1/BUSCO_v1.1b1.py \
-  -m trans -in /mnt/assembly/trinity_out_dir/Trinity.fasta \
-  --cpu 16 -l vertebrata -o trin.assemblty
-
-  less run*/short*
-
-  Control-b d #to exit tmux
+    #Download busco database
 
 
---------------
+    curl -LO http://busco.ezlab.org/files/vertebrata_buscos.tar.gz
+    tar -zxf vertebrata_buscos.tar.gz
+
+    busco -m trans -in $HOME/assembly/trinity_out_dir/Trinity.fasta \
+    --cpu 30 -l vertebrata -o trin.assem
+
+    less run*/short*
 
 **Run Transrate**
 
 ::
 
-  tmux new -s transrate
+    mkdir $HOME/transrate && cd $HOME/transrate
+    transrate -a $HOME/assembly/trinity_out_dir/Trinity.fasta -t 30 \
+    --left $HOME/reads/read1.cor.fq \
+    --right $HOME/reads/read2.cor.fq
 
-  mkdir /mnt/transrate
-  cd /mnt/transrate
-  $HOME/transrate-1.0.1-linux-x86_64/transrate -a /mnt/assembly/trinity_out_dir/Trinity.fasta -t 16 \  
-  --left /mnt/trimming/subsamp.Phred30_1P.fq \  
-  --right /mnt/trimming/subsamp.Phred30_2P.fq
-
-  Control-b d #to exit tmux
-
------------------------------------------
-
-**CHALLENGE**: Talk to me for details...
-
-What Genus/Species did I sequence?
-What tissue?
-
----------------------------------------------
 
 ==================================
 Terminate your instance

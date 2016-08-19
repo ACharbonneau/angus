@@ -48,50 +48,60 @@ Thursday 8/11    * 9:15am lecture, `Intro to genome assembly <http://www.slidesh
                  * 10:15am `Genome assembly practical <http://sjackman.ca/abyss-activity/>`__  (Shaun)
                  * 1:15pm Genome assembly practical (continued)
                  * 2:15pm lecture, De Bruijn graph assembly (Shaun)
-                 * 7:15pm Assembly challenge :doc:`MacManes_AssemblyQuest` (Matt) 
-                 * 8:00pm Finish up student presentations
+                 * 7:15pm Assembly challenge :doc:`MacManes_AssemblyQuest` (Matt)
 
-Friday 8/12      * 9:15am lecture, Bacterial genome annotation (Torst)
-                 * 10:00am Prokka practical :doc:`prokka_genome_annotation` (Torst)
-                 * 11:00am species identification with Kraken :doc:`kraken_species_identification` (Torst)
-                 * 1:15pm intro to R :doc:`Rintro` (Amanda)
-                 * 6:00pm Thai food take out - on the island if nice out, in the classroom if not
-                 * 7:15pm Choose your own adventure :doc:`MacManes_adventure_week1` (Matt)
+Friday 8/12      * 9:15am `Debrief of Assembly Quest marathon <_static/AssemQuest_Debriefing.pptx>`__ (Matt)
+                 * 9:30am lecture, `Bacterial genome annotation <_static/bacterial_genome_annotation.pdf>`__ (Torst)
+                 * 10:00am practical Prokka :doc:`prokka_genome_annotation` (Torst)
+                 * 11:00am practical Species identification with Kraken :doc:`kraken_species_identification` (Torst)
+                 * 1:15pm tutorial, Intro to R :doc:`Rintro` (Amanda)
+                 * 6:00pm Thai food take out at Mcrary Hall
+                 * 7:30pm `Mars Rover Challenge! <http://sjackman.ca/mars-rover/>`__ (Shaun)
+                 * 8:30pm Finish up student presentations
 
 Saturday 8/13    * 9:15am Population genetics `lecture <_static/pop_genomics_singhal.pdf>`__ and practical (Sonal)
                  * 10:30am practical, :doc:`pop_gen_tutorial` (Sonal)
                  * 1:15pm lecture, `long read sequencing <_static/Torsten_Seemann_LRS.pdf>`__ (Torst)
-		 * 2:00pm practial, Assembling Oxford Nanopore data (Lisa, Torst)
+                 * 2:00pm practical, :doc:`analyzing_nanopore_data` (Lisa)
                  * 6:00pm BBQ on the island if nice out, in the classroom if not
 
 Sunday 8/14      * Free Day
                  * Brunch at McCrary 12pm - 1pm*
                  * Dinner field trip to Kalamazoo
 
-Monday 8/15      * 9:15am lecture/tutorial, Transcriptome assembly and evaluation :doc:`MacManes_Trinity` (Matt)
-                 * 1:15pm `Mapping / Transrate <https://github.com/ngs-docs/angus/blob/2015/transrate.rst>`__ (Rob)
-                 * 7pm: Twitter, Blogging and Bioinformatics (All)
+Monday 8/15      * 9:15am , Transcriptome assembly & evaluation `lecture <_static/MacManes_transcriptome.pptx>`__ and  :doc:`MacManes_Trinity` (Matt)
+                 * 1:15pm Alignment / Mapping `lecture <http://robpatro.com/redesign/AlignmentAndMapping.pdf>`__ and `practical <http://angus.readthedocs.io/en/2016/rob_map/tut.html>`__ (Rob)
+                 * 6:30pm LATER DINNER TIME
+                 * 7:45pm: Twitter, Blogging and Bioinformatics (All)
+                 * 8:30pm: Finish up student presentations! (All)
 
+Tuesday 8/16     * 9:15am Transcript quantification `lecture <http://robpatro.com/redesign/Quantification.pdf>`__ (Rob)
+                 * 10:30am practical `Using Salmon for read counts <http://angus.readthedocs.io/en/2016/rob_quant/tut.html>`__ (Rob)
+                 * 11:45pm lecture, `mRNAseq differential expression <_static/DifferentialExpressionBasics_NGS2016_ID.pdf>`__ (Ian)
+                 * 12:30pm Lunch (new later time)
+                 * 1:15pm `Visualizing RNA-Seq counts with Degust <http://www.vicbioinformatics.com/degust/>`__ (Torst)
+                 * 1:45pm `mRNA stats <_static/NGS2015_RNAseq_ID_1.pptx>`__ (Ian)
+                 * 2:45pm practical `Using DEseq2 for DGE <https://github.com/ngs-docs/angus/blob/2016/DeSeq2_Salmon_Tutorial.md>`__ (Ian)
+                 * 6:00pm Dinner (back to original time)
+                 * 7:15pm Optional :doc:`arabidopsis_assembly_challenge`
 
-Tuesday 8/16     * 9:15am transcriptome read counting lecture and practical (Rob - Salmon)
-                 * 10:30am: `R tutorial <https://github.com/ngs-docs/angus/blob/2015/R_Introductory_tutorial_2015.md>`__ (Ian)
-                 * 1:15pm: lecture, `mRNAseq differential expression <_static/NGS2015_RNAseq_2.pptx>`__ (Ian) and lecture, `mRNA stats <_static/NGS2015_RNAseq_ID_1.pptx>`__
-                 * 7pm: Journal Club - need article idea (All)
+Wed 8/17         * 9:15am `lecture <_static/GetData.pdf>`__ and `Sourcing NCBI data including SRA practical <https://github.com/mestato/epp622/blob/master/ncbi.md>`__ (Meg)
+                 * 10:15am `More fun with R <https://github.com/MingChen0919/KBS_workshop_Michigan_2016/blob/master/fun_with_R.md>`__ (Ming)
+                 * 12:00 Lunch
+                 * Bonus `Routes Through Differential Expression Analysis <_static/RoutesThroughDESeqAnalysis.pdf>`__
+                 * 1:00pm UNIX Stuff :doc:`MacManes_UNIX` (All) [tentative]
+                 * 6:00pm Dinner
+                 * 7:15pm Work on your own data, ask questions..
 
-
-Wed 8/17         * 9:15am lecture, sourcing NCBI data including SRA :doc:`howe-ncbi` (Meg);
-
-                 * 10:15am  more fun with R (Ming)
-                 * 1:00pm Degust (Torst)
-                 * Evening: Choose your own adventure! :doc:`MacManes_adventure_week2` (Matt)
-
-Thursday 8/18    * 9:15am Open source your scripts with GitHub (Lisa) :doc:`CTB-github`
+Thursday 8/18    * 9:15am Open source your scripts with GitHub (Lisa) :doc:`LC-github`
+                 * 11:30 Jupyter Notebook (Lisa) :doc:`jupyter_notebook`
                  * 1:15pm Assessment (Bob Drost)
-                 * 2pm: :doc:`functional_annotation` (Ming)
-                 * BBQ Dinner on the island
+                 * Meet outside classroom after assessment for group photo
+                 * 2pm: `Functional Annotation slides <_static/FunctionalAnnotation.pdf>`__ and :doc:`functional_annotation_2016` (Meg)
+                 * 6:00pm Dinner
                  * Evening: Ask the Expert (All)
 
-Friday 8/19      * 9:15-9:45 closing lecture (Meg & Matt)
+Friday 8/19      * 9:15-9:45 `Closing Lecture! <_static/2016-final-lecture.pptx>`__ (Meg and Matt)
                  * 10am discussion about class; more stuff
 
 
@@ -109,23 +119,30 @@ Instructors:
 
 * Meg Staton `@HardwoodGenomic <https://twitter.com/HardwoodGenomic?lang=en>`__.
 * Matt MacManes `@macmanes <https://twitter.com/macmanes?lang=en>`__.
-* Ian Dworkin `@IanDworkin <https://twitter.com/IanDworkin?lang=en>`__.
+* Torsten Seemann `@torstenseemann <https://twitter.com/torstenseemann?lang=en>`__.
 * Shaun Jackman `@sjackman <https://twitter.com/sjackman?lang=en>`__.
 * Rob Patro `@nomad421 <https://twitter.com/nomad421?lang=en>`__.
-* Torsten Seemann `@torstenseemann <https://twitter.com/torstenseemann?lang=en>`__.
+* Ian Dworkin `@IanDworkin <https://twitter.com/IanDworkin?lang=en>`__.
 * Sonal Singhal
+* Amanda Charbonneau `@procrastinomics <https://twitter.com/procrastinomics?lang=en>`__.
+
 
 TAs:
 
-* Amanda Charbonneau
-* Lisa Cohen
+* Lisa Cohen `@monsterbashseq <https://twitter.com/monsterbashseq?lang=en>`__.
+* Will Pitchers `@steeljawpanda <https://twitter.com/steeljawpanda?lang=en>`__.
 * Ming Chen
-* Will Pitchers
 
 
 She Who Drives Many Places:
 
 * Kate MacManes
+
+Genome Assembly References
+==========================
+* `Ben Langmead Resources <http://www.langmead-lab.org/teaching-materials/>`__
+* `How do we assemble genomes (videos) <https://www.youtube.com/watch?list=PLQ-85lQlPqFNGdaeGpV8dPEeSm3AChb6L&v=vjB6nhOu3BY>`__
+
 
 Papers and References
 =====================
@@ -236,8 +253,12 @@ Blogs
 
   Nick Loman's lab notebook
 
+* http://TheGenomeFactory.blogspot.com/
+
+  The Genome Factory (Torsten Seemann)
+
 Material from previous years
-==========================
+============================
 
 .. toctree::
    :maxdepth: 5
